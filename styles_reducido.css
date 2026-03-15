@@ -107,6 +107,32 @@ link {
         line-height: 0; /* Elimina cualquier espacio entre fotos */
     }
 
+.image-caption {
+    /* Color amarillo semi-transparente tipo marcador */
+    background-color: rgb(216, 216, 216); /* Amarillo más cálido */
+    
+    /* Padding para que el fondo no esté pegado al texto */
+    padding: 0.15em 0.4em;
+    
+    /* ESTO ES CLAVE: hace que el fondo se aplique línea por línea */
+    box-decoration-break: clone;
+    -webkit-box-decoration-break: clone;
+    
+    /* Necesario para que funcione correctamente */
+    display: inline;
+    
+    /* Espacio entre líneas para que no se peguen los fondos */
+    line-height: 1.8;
+    
+
+    /* Opcional: sombra para dar profundidad */
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Para que se vea el efecto "escalera" más claramente */
+.image-caption br + br {
+    display: none; /* Evita dobles saltos de línea innecesarios */
+}
     /* 3. El pie de página como Overlay Sticky */
     .caption-wrapper {
         position: -webkit-sticky;
@@ -129,8 +155,7 @@ link {
         position: absolute;
         bottom: 0; /* Se pega al borde inferior de la pantalla */
         width: 100%;
-   
-        background-color: rgba(232, 231, 231, 0); /* Fondo semi-transparente */
+
         backdrop-filter: blur(50px);
         mix-blend-mode: difference;
 
