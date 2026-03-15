@@ -1,220 +1,167 @@
-
-body {
+/* ESTRUCTURA BASE */
+body, html {
     margin: 0;
     padding: 0;
-    height: 100vh;
     background-color: #f0f0f0;
-    overflow: auto;
     font-family: Arial, sans-serif;
-    
-    overflow-x: hidden;
-    overflow-y: auto;
+}
+link {
+    text-decoration: none;
+    color: inherit;
 }
 
-
-/*fuentes*/
- h1, h2, h3, h4, p{
-        
-        margin: 0;
-        color: black;
-        
-     
-    
-        
-    }
-    /* el vw modifica el tamaño segun las dimensiones del viewport*/
-    h1{
-        font-size: 2.5rem;
-        font-weight:700
-     }
-     
-    h2{
-        font-size: 2.5rem;
-        font-weight: 100;
-     }
-    h3{
-        font-size: 1.2rem;
-    }
-    
-    h4{
-        font: size 1rem;;
-        
-    }
-
-    a{
-        text-decoration: none;
-        color: rgb(28, 28, 28);
-     
-    }
-   
-    ul {
-        list-style-type: none; /* Elimina los puntos */
-        margin: 0; /* Opcional: elimina el margen predeterminado */
-        padding: 0; /* Opcional: elimina el relleno predeterminado */
-      }
-      
-    
-
-
-    #weather-clock-widget {
-    position: fixed;
-    top: 20px;
-    left: 20px;
-    color: rgb(26, 26, 26);
-    padding: 15px;
-    font-family: Arial, sans-serif;
-    z-index: 1000;
-    display:block;
-    gap: 15px;
-    align-items: center;
-}
-
-#current-time {
-  font-size: 1.2rem;
-  font-family: Arial, Helvetica, sans-serif;
-}
-
-
-
-/* ====== CONTENEDOR PRINCIPAL ====== */
 #imageSpace {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end; /* 💻 PC: imágenes alineadas a la izquierda */
-  padding: 0px;
-  gap:0;
-  box-sizing: border-box;
+    width: 100%;
 }
 
-/* ====== CONTENEDOR DE CADA IMAGEN O VIDEO ====== */
-.image-container {
-  position: relative;
-  display: block;
-  width: 50%; /* 💻 PC: ancho fijo y columna a la izquierda */
-  max-width: 90vw;
-  overflow: hidden;
-
+/* CONTENEDOR DE GRUPO */
+.group-container {
+    display: flex;
+    width: 100%;
+    position: relative; /* Define el límite para el texto fijo */
+    align-items: stretch; 
+    background-color: #fff;
 }
 
-/* ====== IMÁGENES Y VIDEOS ====== */
-.image-container img,
-.image-container video {
-  width: 100%;
-  height: auto;
-  display: block;
-  object-fit: cover;
- 
-
+/* IZQUIERDA: IMÁGENES PEGADAS (SIN GAP) */
+.media-list {
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    gap: 0;           /* Cero espacio entre bloques */
+    line-height: 0;    /* Elimina huecos tipográficos */
 }
 
-
-
-/* ====== TÍTULOS O TEXTOS (si los usas) ====== */
-.image-container p {
-  margin: 5px 0 0;
-  font-size: 0.9rem;
-  color: #222;
-}
-
-/* ====== MÓVIL ====== */
-@media (max-width: 768px) {
-
- 
-  #mediaModal {
-    display: none !important;
-  }
-
-
-  #imageSpace {
-    align-items: center; /* 📱 Centra las imágenes horizontalmente */
+.media-wrapper {
+    width: 100%;
+    margin: 0;
     padding: 0;
-    gap: 0;
-  }
+}
 
-  .image-container {
-    width: 100vw; /* 📱 ancho completo */
-    max-width: 100%;
-    border-radius: 0;
-  }
-
-  .image-container img,
-  .image-container video {
+.media-wrapper img,
+.media-wrapper video {
     width: 100%;
     height: auto;
-    border-radius: 0;
-  }
+    display: block;   /* Vital para que no haya espacio debajo de la imagen */
 }
 
-/* ====== MODAL GENERAL ====== */
+/* DERECHA: EL CARRIL DEL TEXTO */
+.caption-wrapper {
+    width: 50%;
+    position: relative;
+    /* El padding-top lo pone el JS para retrasar la aparición */
+}
+
+/* EL TEXTO QUE SE QUEDA FIJO EN PANTALLA */
+.sticky-content {
+    position: -webkit-sticky;
+    position: sticky;
+    top: 0;             /* Se ancla al techo de la ventana */
+    height: auto;
+         /* Mide lo mismo que tu pantalla */
+    
+    display: flex;
+    align-items: flex; /* El texto se queda "fijo" abajo a la derecha */
+    padding: 40px;
+    box-sizing: border-box;
+    align-self: flex-start; /* Permite que flote a lo largo de las imágenes */
+}
+
+.image-caption {
+    font-size: 1.1rem;
+    line-height: 1.5;
+    color: #000;
+    margin: 0;
+    max-width: 90%;
+    padding-bottom: 20px;
+}
+
+/* MODAL */
 .modal {
-  display: none;
-  position: fixed;
-  inset: 0;
-  background-color: rgba(0, 0, 0, 0);
-  z-index: 10000;
-  justify-content: center;
-  align-items: center;
+    display: none;
+    position: fixed;
+    inset: 0;
+    background-color: white;
+    z-index: 10000;
+    justify-content: center;
+    align-items: center;
+}
+.modal-content img, .modal-content video {
+    max-width: 90vw;
+    max-height: 90vh;
 }
 
-/* ====== CONTENEDOR DEL CONTENIDO ====== */
-.modal-content {
-  position: relative;
-  max-width: 90vw;
-  max-height: 90vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
+@media (max-width: 768px) {
+    /* 1. Modal desactivado */
+    .modal { display: none !important; }
 
-.modal-content img,
-.modal-content video {
-  width: auto;
-  height: auto;
-  max-width: 90vw;
-  max-height: 90vh;
-  object-fit: contain;
-  display: block;
-}
+    /* 2. Contenedor a ancho completo */
+    .group-container {
+        display: block; /* Cambiamos flex por block */
+        width: 100vw;
+        position: relative;
+    }
 
-.modal-controls {
-  position: fixed;
-  bottom: 30px;
-  right: 15px;
-  display: flex;
-  gap: 0px;
-  z-index: 10001;
-  align-items: center;
-}
+    .media-list {
+        width: 100%;
+        line-height: 0; /* Elimina cualquier espacio entre fotos */
+    }
 
-.modal-close,
-.modal-prev,
-.modal-next {
-  width: 50px;
-  height: 50px;
-  background: rgba(255, 255, 255, 0.5); /* fondo semi-transparente */
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  cursor: pointer;
-  user-select: none;
-  transition: background 0.2s, backdrop-filter 0.2s, box-shadow 0.2s;
-  backdrop-filter: blur(5px);
-  -webkit-backdrop-filter: blur(5px); /* Safari */
- 
-}
+    /* 3. El pie de página como Overlay Sticky */
+    .caption-wrapper {
+        position: -webkit-sticky;
+        position: sticky;
+        bottom: 0;
+        width: 100%;
+        height: 0; /* CRÍTICO: El contenedor no ocupa espacio vertical */
+        overflow: visible; /* Pero permite que el texto se vea */
+        z-index: 100;
+        pointer-events: none; /* No molesta al scroll */
+        
+        /* Oculto por defecto */
+        opacity: 0;
+        visibility: hidden;
 
-.modal-close:hover,
-.modal-prev:hover,
-.modal-next:hover {
-  background: rgba(255, 255, 255, 0.8); /* más visible al pasar el mouse */
-  
-}
+    }
 
-.modal-close svg,
-.modal-prev svg,
-.modal-next svg {
-  width: 24px;
-  height: 24px;
-  stroke: black;
-  fill: none;
+    /* 4. El contenido del texto que "flota" */
+    .sticky-content {
+        position: absolute;
+        bottom: 0; /* Se pega al borde inferior de la pantalla */
+        width: 100%;
+   
+        background-color: rgba(232, 231, 231, 0); /* Fondo semi-transparente */
+        backdrop-filter: blur(50px);
+        mix-blend-mode: difference;
+
+        padding: 8px 8px;
+        box-sizing: border-box;
+        pointer-events: auto; /* El texto y links sí son clicables */
+        border-top: none;
+    }
+
+    /* 5. Activar con el click global */
+    body.show-captions-mobile .caption-wrapper {
+        opacity: 1;
+        visibility: visible;
+    }
+
+
+    
+    
+    /* 1. Las imágenes se desenfocan cuando el body tiene la clase activa */
+    body.show-captions-mobile .media-list {
+        filter:opacity(1); /* Ajusta el nivel de blur y oscuridad aquí */
+        transition: filter 0.3s ease;
+    }
+
+    /* 2. Estado normal (sin blur) para que la transición sea suave */
+    .media-list {
+        filter:blur(0px); /* Ajusta el nivel de blur y oscuridad aquí */
+        transition: filter 0.3s ease;
+    }
+
+
+
+
 }
