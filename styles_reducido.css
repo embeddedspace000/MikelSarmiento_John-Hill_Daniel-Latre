@@ -97,96 +97,76 @@ link {
 
     /* 2. Contenedor a ancho completo */
     .group-container {
-        display: block; /* Cambiamos flex por block */
+        display: block; 
         width: 100vw;
         position: relative;
     }
 
+    /* 3. DESENFOQUE DE IMÁGENES: Cuando la info está activa */
+    body.show-captions-mobile .media-list {
+        
+        transition: filter 0.s ease;
+    }
+
     .media-list {
         width: 100%;
-        line-height: 0; /* Elimina cualquier espacio entre fotos */
+        line-height: 0;
+        filter: blur(0px);
+        transition: filter 0s ease;
     }
 
-.image-caption {
-    /* Color amarillo semi-transparente tipo marcador */
-    background-color: rgb(216, 216, 216); /* Amarillo más cálido */
-    
-    /* Padding para que el fondo no esté pegado al texto */
-    padding: 0.15em 0.4em;
-    
-    /* ESTO ES CLAVE: hace que el fondo se aplique línea por línea */
-    box-decoration-break: clone;
-    -webkit-box-decoration-break: clone;
-    
-    /* Necesario para que funcione correctamente */
-    display: inline;
-    
-    /* Espacio entre líneas para que no se peguen los fondos */
-    line-height: 1.8;
-    
-
-    /* Opcional: sombra para dar profundidad */
-    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-/* Para que se vea el efecto "escalera" más claramente */
-.image-caption br + br {
-    display: none; /* Evita dobles saltos de línea innecesarios */
-}
-    /* 3. El pie de página como Overlay Sticky */
+    /* 4. EL CONTENEDOR STICKY (Overlay) */
     .caption-wrapper {
-        position: -webkit-sticky;
-        position: sticky;
+        position: absolute;
+        top: 10%;
         bottom: 0;
         width: 100%;
-        height: 0; /* CRÍTICO: El contenedor no ocupa espacio vertical */
-        overflow: visible; /* Pero permite que el texto se vea */
+        height: 0; /* No ocupa espacio real, flota sobre las fotos */
+        overflow: visible; 
         z-index: 100;
-        pointer-events: none; /* No molesta al scroll */
-        
-        /* Oculto por defecto */
+        pointer-events: none;
         opacity: 0;
         visibility: hidden;
-
+        transition: opacity 0s ease;
     }
 
-    /* 4. El contenido del texto que "flota" */
-    .sticky-content {
-        position: absolute;
-        bottom: 0; /* Se pega al borde inferior de la pantalla */
-        width: 100%;
-
-        backdrop-filter: blur(50px);
-        mix-blend-mode: difference;
-
-        padding: 8px 8px;
-        box-sizing: border-box;
-        pointer-events: auto; /* El texto y links sí son clicables */
-        border-top: none;
-    }
-
-    /* 5. Activar con el click global */
     body.show-captions-mobile .caption-wrapper {
         opacity: 1;
         visibility: visible;
     }
 
-
-    
-    
-    /* 1. Las imágenes se desenfocan cuando el body tiene la clase activa */
-    body.show-captions-mobile .media-list {
-        filter:opacity(1); /* Ajusta el nivel de blur y oscuridad aquí */
-        transition: filter 0.3s ease;
+    /* 5. EL CONTENIDO (Posicionamiento del texto) */
+    .sticky-content {
+        position: absolute;
+        bottom: 30px; /* Separación del borde inferior de la pantalla */
+        left: 0;
+        width: 100%;
+        padding: 0px 20px 0px 0px; /* Margen lateral del bloque de texto */
+        box-sizing: border-box;
+        pointer-events: auto;
+        display: block;
     }
 
-    /* 2. Estado normal (sin blur) para que la transición sea suave */
-    .media-list {
-        filter:blur(0px); /* Ajusta el nivel de blur y oscuridad aquí */
-        transition: filter 0.3s ease;
+    /* 6. ESTILO DE LA IMAGEN: Bloque Blanco Línea por Línea */
+    .image-caption {
+        display: inline; /* PERMITE QUE EL FONDO SEA POR LÍNEA */
+        background-color: white; /* Blanco sólido */
+        color: black !important; /* Texto negro */
+        font-size: 1.1rem;
+        line-height: 1.5; /* Espaciado entre bloques blancos */
+        padding: 4px 4px; /* Padding vertical */
+        
+
+        
+        box-decoration-break: clone;
+        -webkit-box-decoration-break: clone;
+        
+        /* Posicionamiento para compensar el shadow */
+        position: relative;
+        left: 10px; 
+        
+        text-shadow: none !important;
+        font-family: Arial, sans-serif;
     }
-
-
-
-
 }
+
